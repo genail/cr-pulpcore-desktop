@@ -49,7 +49,7 @@ public class DesktopPlatform implements Platform {
 	
 	public DesktopPlatform( CoreWindow window ) {
 		
-		// TODO: I'm not really sure if that should be done in thys way
+		// TODO: I'm not really sure if that should be done in this way
 		appContext = new DesktopAppContext( window );
 	}
 	

@@ -47,9 +47,10 @@ public class SplashScene extends Scene2D {
 	/** How long the scene should last? */
 	private final int SCENE_DURATION = 6000;
 	/** Scene timeline */
-	Timeline timeline;
+	private Timeline timeline;
 	/** Scene that plays next */
 	private final Scene nextScene;
+	
 	
 	public SplashScene( Scene nextScene ) {
 		this.nextScene = nextScene;

@@ -53,6 +53,11 @@ public class CoreApplication implements Runnable {
 	private Map<String, String> properties;
 
 	public CoreApplication( Map<String, String> properites ) {
+		
+//		if (properties == null) {
+//			throw new IllegalArgumentException("Cannot take null values");
+//		}
+		
 		this.properties = properites;
 	}
 
@@ -63,7 +68,7 @@ public class CoreApplication implements Runnable {
 		// reading properties from arguments
 		String propertyName, propertyValue;
 		int indexOfEquals;
-
+		
 		Map<String, String> properties = new HashMap<String, String>();
 		
 

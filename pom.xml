@@ -50,5 +50,15 @@
         
     </dependencies>
     
+    <profiles>
+        <!-- Debug profile -->
+        <profile>
+            <id>debug</id>
+            <activation>
+                <property>cr-pulpcore-desktop-debug</property>
+            </activation>
+        </profile>
+    </profiles>
+    
 </project>
 
