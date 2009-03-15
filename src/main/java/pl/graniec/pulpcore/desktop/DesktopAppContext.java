@@ -80,7 +80,7 @@ public class DesktopAppContext extends AppContext {
 		}
 
 		this.surface = window.getSurface();
-		this.component = window;
+		this.component = window.getComponent();
 
 		inputSystem = new DesktopInput( component );
 

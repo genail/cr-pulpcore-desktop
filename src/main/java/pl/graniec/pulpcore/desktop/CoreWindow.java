@@ -24,11 +24,13 @@
  */
 package pl.graniec.pulpcore.desktop;
 
+import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Frame;
 import java.awt.Graphics;
-import java.awt.Panel;
 import java.awt.image.BufferedImage;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import pulpcore.platform.Surface;
 import pulpcore.platform.applet.BufferedImageSurface;
@@ -37,9 +39,9 @@ import pulpcore.platform.applet.BufferedImageSurface;
  * @author Piotr Korzuszek <piotr.korzuszek@gmail.com>
  * 
  */
-public class CoreWindow extends Frame {
+public class CoreWindow extends JFrame {
 
-	private class CorePanel extends Panel {
+	class CorePanel extends JPanel {
 
 		private static final long serialVersionUID = -2625212614575475867L;
 		
@@ -69,6 +71,7 @@ public class CoreWindow extends Frame {
 	/** Window frame */
 
 	public CoreWindow() {
+		
 		add(panel);
 		surface = new BufferedImageSurface(panel);
 		
@@ -94,6 +97,13 @@ public class CoreWindow extends Frame {
 	@Override
 	public void setSize(int width, int height) {
 		setSize(new Dimension(width, height));
+	}
+
+	/**
+	 * @return
+	 */
+	Component getComponent() {
+		return panel;
 	}
 
 }

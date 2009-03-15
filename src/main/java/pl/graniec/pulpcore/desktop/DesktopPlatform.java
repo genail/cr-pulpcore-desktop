@@ -115,7 +115,11 @@ public class DesktopPlatform implements Platform {
 	@Override
 	public long sleepUntilTimeMicros( long timeMicros ) {
 		try {
-			Thread.sleep( (timeMicros - getTimeMicros()) / 1000 );
+			long sleepTime = timeMicros - getTimeMicros();
+			
+			if (sleepTime > 1000) {
+				Thread.sleep( sleepTime / 1000 );
+			}
 		} catch ( InterruptedException e ) {
 			e.printStackTrace();
 		}

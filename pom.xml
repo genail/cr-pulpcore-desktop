@@ -24,14 +24,6 @@
 
     <dependencies>
     
-        <!-- Pulpcore -->
-        <dependency>
-            <groupId>pulpcore</groupId>
-            <artifactId>pulpcore-applet-release</artifactId>
-            <version>0.11.4</version>
-            <scope>compile</scope>
-        </dependency>
-    
         <!-- JUnit -->
         <dependency>
             <groupId>junit</groupId>
@@ -55,8 +47,44 @@
         <profile>
             <id>debug</id>
             <activation>
-                <property>cr-pulpcore-desktop-debug</property>
+                <property>
+                    <name>!release</name>
+                </property>
             </activation>
+            
+            <dependencies>
+            
+                <!-- Pulpcore Debug -->
+                <dependency>
+                    <groupId>pulpcore</groupId>
+                    <artifactId>pulpcore-applet-debug</artifactId>
+                    <version>0.11.4</version>
+                    <scope>compile</scope>
+                </dependency>
+                
+            </dependencies>
+        </profile>
+        
+        <!-- Release profile -->
+        <profile>
+            <id>release</id>
+            <activation>
+                <property>
+                    <name>release</name>
+                </property>
+            </activation>
+            
+            <dependencies>
+            
+                <!-- Pulpcore Release -->
+                <dependency>
+                    <groupId>pulpcore</groupId>
+                    <artifactId>pulpcore-applet-release</artifactId>
+                    <version>0.11.4</version>
+                    <scope>compile</scope>
+                </dependency>
+                
+            </dependencies>
         </profile>
     </profiles>
     

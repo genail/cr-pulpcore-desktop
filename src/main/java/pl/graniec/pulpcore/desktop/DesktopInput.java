@@ -28,6 +28,8 @@ package pl.graniec.pulpcore.desktop;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
@@ -38,9 +40,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.image.BufferedImage;
-import java.awt.Point;
-import java.awt.Toolkit;
-import pulpcore.CoreSystem;
+
 import pulpcore.Input;
 import pulpcore.platform.PolledInput;
 
@@ -596,6 +596,7 @@ public class DesktopInput implements KeyListener, MouseListener,
 
     public void mouseMoved(MouseEvent e) {
         synchronized (this) {
+        	
             appletMouseX = e.getX();
             appletMouseY = e.getY();
             appletIsMouseInside = true;
