@@ -1,4 +1,4 @@
-/* Copyright (c) ${year}, Peter Korzuszek <piotr.korzuszek@gmail.com>
+/* Copyright (c) 2008-2009, Peter Korzuszek <piotr.korzuszek@gmail.com>
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -24,8 +24,11 @@
  */
 package pl.graniec.pulpcore.desktop;
 
+import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Graphics;
+import java.awt.Panel;
+import java.awt.image.BufferedImage;
 
 import pulpcore.platform.Surface;
 import pulpcore.platform.applet.BufferedImageSurface;
@@ -36,14 +39,40 @@ import pulpcore.platform.applet.BufferedImageSurface;
  */
 public class CoreWindow extends Frame {
 
+	private class CorePanel extends Panel {
+
+		private static final long serialVersionUID = -2625212614575475867L;
+		
+		BufferedImage buffer = new BufferedImage(1, 1, BufferedImage.TYPE_4BYTE_ABGR);
+		
+		@Override
+		public void paint(Graphics g) {
+			
+			surface.draw(buffer.getGraphics());
+			g.drawImage(buffer, 0, 0, null);
+		}
+		
+		@Override
+		public void update(Graphics g) {
+			paint(g);
+		}
+		
+	}
+	
 	/** Class serial number */
 	private static final long serialVersionUID = -8999835621498095740L;
 	/** PulpCore draw surface */
 	BufferedImageSurface surface;
+	/** Inside panel */
+	private final CorePanel panel = new CorePanel();
+	
+	/** Window frame */
 
 	public CoreWindow() {
-		// creating surface
-		surface = new BufferedImageSurface( this );
+		add(panel);
+		surface = new BufferedImageSurface(panel);
+		
+		setResizable(false);
 	}
 
 	/**
@@ -54,15 +83,17 @@ public class CoreWindow extends Frame {
 	public Surface getSurface() {
 		return surface;
 	}
-
+	
 	@Override
-	public void paint( Graphics g ) {
-		surface.draw( g );
+	public void setSize(Dimension d) {
+		panel.setPreferredSize(d);
+		panel.buffer = new BufferedImage(d.width, d.height, BufferedImage.TYPE_4BYTE_ABGR);
+		pack();
 	}
-
+	
 	@Override
-	public void update( Graphics g ) {
-		paint( g );
+	public void setSize(int width, int height) {
+		setSize(new Dimension(width, height));
 	}
 
 }

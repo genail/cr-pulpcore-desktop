@@ -31,8 +31,6 @@ import java.awt.Cursor;
 import java.awt.Image;
 import java.awt.MediaTracker;
 import java.awt.Toolkit;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.image.PixelGrabber;
 import java.net.URL;
 import java.util.HashMap;
@@ -45,7 +43,6 @@ import pulpcore.image.CoreImage;
 import pulpcore.platform.AppContext;
 import pulpcore.platform.PolledInput;
 import pulpcore.platform.Surface;
-import pulpcore.platform.applet.AppletInput;
 import pulpcore.scene.Scene;
 import pulpcore.util.ByteArray;
 
@@ -103,7 +100,7 @@ public class DesktopAppContext extends AppContext {
 			}
 
 			try {
-				Class c = Class.forName( sceneName );
+				Class<?> c = Class.forName( sceneName );
 				firstScene = (Scene) c.newInstance();
 			}
 
@@ -113,7 +110,7 @@ public class DesktopAppContext extends AppContext {
 				return null;
 			}
 
-			firstScene = new SplashScene( firstScene );
+//			firstScene = new SplashScene( firstScene );
 		}
 
 		return firstScene;
@@ -280,6 +277,4 @@ public class DesktopAppContext extends AppContext {
 		getStage().stop();
 
 	}
-	//@SuppressWarnings("unused")
-	//private static Logger logger = Logger.getLogger( DesktopAppContext.class.getName() );
 }

@@ -58,6 +58,8 @@ public class SplashScene extends Scene2D {
 
 	@Override
 	public void load() {
+		
+		System.out.println("loading splash");
 
 		// loading logo
 		logoSprite = new ImageSprite( LOGO_RESOURCE, 0, 0 );
@@ -72,6 +74,7 @@ public class SplashScene extends Scene2D {
 		int width = logoSprite.getImage().getWidth();
 		int height = logoSprite.getImage().getHeight();
 
+		logoSprite.setAnchor(ImageSprite.CENTER);
 		logoSprite.setLocation( 320, 240 );
 
 		timeline = new Timeline();
@@ -79,7 +82,7 @@ public class SplashScene extends Scene2D {
 		timeline.animate( logoSprite.alpha, 255, 0, 2000, Easing.NONE, 4000 );
 		timeline.scale( logoSprite, width / 2.0, height / 2.0, width / 1.5,
 				height / 1.5, 6000 );
-		timeline.setScene( nextScene, SCENE_DURATION );
+		timeline.interruptScene( nextScene, SCENE_DURATION );
 		timeline.play();
 
 	}
