@@ -1,6 +1,6 @@
 <!-- Coral Reef Network Library -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0     http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     
     <parent>
         <groupId>pl.graniec</groupId>
@@ -13,15 +13,15 @@
     <groupId>pl.graniec</groupId>
     <artifactId>cr-pulpcore-desktop</artifactId>
     <packaging>jar</packaging>
-    <version>0.1</version>
+    <version>0.2-SNAPSHOT</version>
     
     <name>Coral Reef PulpCore Desktop Implementation</name>
     <url>http://graniec.pl/</url>
     
     <scm>
-        <connection>scm:svn:svn://atom/general/CoralReef/tags/cr-pulpcore-desktop-0.1</connection>
-        <developerConnection>scm:svn:svn://atom/general/CoralReef/tags/cr-pulpcore-desktop-0.1</developerConnection>
-        <url>svn://atom/general/CoralReef/tags/cr-pulpcore-desktop-0.1</url>
+        <connection>scm:svn:svn://atom/general/CoralReef/trunk/cr-pulpcore-desktop</connection>
+        <developerConnection>scm:svn:svn://atom/general/CoralReef/trunk/cr-pulpcore-desktop</developerConnection>
+        <url>svn://atom/general/CoralReef/trunk/cr-pulpcore-desktop</url>
     </scm>
 
     <dependencies>
