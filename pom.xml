@@ -1,4 +1,4 @@
-<!-- Coral Reef Network Library -->
+<!-- Coral Reef PulpCore Desktop Implementation library -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     
@@ -13,7 +13,7 @@
     <groupId>pl.graniec</groupId>
     <artifactId>cr-pulpcore-desktop</artifactId>
     <packaging>jar</packaging>
-    <version>0.2-SNAPSHOT</version>
+    <version>0.1-SNAPSHOT</version>
     
     <name>Coral Reef PulpCore Desktop Implementation</name>
     <url>http://graniec.pl/</url>
@@ -23,7 +23,7 @@
         <developerConnection>scm:svn:svn://atom/general/CoralReef/trunk/cr-pulpcore-desktop</developerConnection>
         <url>svn://atom/general/CoralReef/trunk/cr-pulpcore-desktop</url>
     </scm>
-
+    
     <dependencies>
     
         <!-- JUnit -->
@@ -51,6 +51,24 @@
         </dependency>
         
     </dependencies>
+    
+    <build>
+        <plugins>
+        
+            <!-- Classifier -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.0</version>
+                <extensions>false</extensions>
+                <inherited>true</inherited>
+                <configuration>
+                    <classifier>${coralreef.build}</classifier>
+                </configuration>
+            </plugin>
+            
+        </plugins>
+    </build>
     
 </project>
 
