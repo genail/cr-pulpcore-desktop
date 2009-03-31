@@ -13,15 +13,15 @@
     <groupId>pl.graniec</groupId>
     <artifactId>cr-pulpcore-desktop</artifactId>
     <packaging>jar</packaging>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.1</version>
     
     <name>Coral Reef PulpCore Desktop Implementation</name>
     <url>http://graniec.pl/</url>
     
     <scm>
-        <connection>scm:svn:svn://atom/general/CoralReef/trunk/cr-pulpcore-desktop</connection>
-        <developerConnection>scm:svn:svn://atom/general/CoralReef/trunk/cr-pulpcore-desktop</developerConnection>
-        <url>svn://atom/general/CoralReef/trunk/cr-pulpcore-desktop</url>
+        <connection>scm:svn:svn://atom/general/CoralReef/tags/cr-pulpcore-desktop-0.1-debug</connection>
+        <developerConnection>scm:svn:svn://atom/general/CoralReef/tags/cr-pulpcore-desktop-0.1-debug</developerConnection>
+        <url>svn://atom/general/CoralReef/tags/cr-pulpcore-desktop-0.1-debug</url>
     </scm>
     
     <dependencies>
