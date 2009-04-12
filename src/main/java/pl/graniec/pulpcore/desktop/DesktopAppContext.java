@@ -277,4 +277,12 @@ public class DesktopAppContext extends AppContext {
 		getStage().stop();
 
 	}
+
+	/*
+	 * @see pulpcore.platform.AppContext#getRefreshRate()
+	 */
+	@Override
+	public int getRefreshRate() {
+		return 60;
+	}
 }
