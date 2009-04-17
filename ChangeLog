@@ -1,0 +1,2 @@
+0.2:
+- Now it's dependent of newer pulpcore version (0.11.5)
