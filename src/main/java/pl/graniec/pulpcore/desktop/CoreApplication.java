@@ -97,48 +97,52 @@ public class CoreApplication implements Runnable {
 		int width = DEFAULT_WINDOW_WIDTH;
 		int height = DEFAULT_WINDOW_HEIGHT;
 
-		if ( properties.containsKey( WINDOW_WIDTH )
-				&& properties.containsKey( WINDOW_HEIGHT ) ) {
-
+		if (properties.containsKey(WINDOW_WIDTH)) {
 			try {
-
-				width = Integer.parseInt( properties.get( WINDOW_WIDTH ) );
-				height = Integer.parseInt( properties.get( WINDOW_HEIGHT ) );
-
+				width = Integer.parseInt(properties.get(WINDOW_WIDTH));
 			} catch ( NumberFormatException e ) {
-				logger.severe( "Invalid number format when defining window width and height: "
-						+ e );
+				logger.severe( "Window width is not a integer" );
 			} finally {
-				if ( width <= 0 || height <= 0 ) {
+				if (width <= 0) {
 					width = DEFAULT_WINDOW_WIDTH;
+				}
+			}
+		}
+		
+		if (properties.containsKey(WINDOW_HEIGHT)) {
+			try {
+				height = Integer.parseInt(properties.get(WINDOW_HEIGHT));
+			} catch ( NumberFormatException e ) {
+				logger.severe( "Window height is not a integer" );
+			} finally {
+				if (height <= 0) {
 					height = DEFAULT_WINDOW_HEIGHT;
 				}
 			}
 		}
 		
-
-		window.setSize( new Dimension( width, height ) );
-		window.setBackground( Color.black );
-		window.setVisible( true );
+		window.setSize(new Dimension(width, height));
+		window.setBackground(Color.black);
+		window.setVisible(true);
 
 		// closing window action
-		window.addWindowListener( new WindowAdapter() {
+		window.addWindowListener(new WindowAdapter() {
 			@Override
-			public void windowClosing( WindowEvent e ) {
-				System.exit( 0 );
+			public void windowClosing(WindowEvent e) {
+				System.exit(0);
 			}
 
 		} );
 
 		// creating desktop platform
-		Platform platform = new DesktopPlatform( window );
-		CoreSystem.init( platform );
+		Platform platform = new DesktopPlatform(window);
+		CoreSystem.init(platform);
 
 		// setting properties
 		DesktopAppContext appContext = (DesktopAppContext) platform.getThisAppContext();
 
-		for ( String key : properties.keySet() ) {
-			appContext.setAppProperty( key, properties.get( key ) );
+		for (String key : properties.keySet()) {
+			appContext.setAppProperty(key, properties.get(key));
 		}
 
 		// start running
