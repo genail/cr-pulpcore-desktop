@@ -24,7 +24,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package pl.graniec.pulpcore.desktop;
+package pl.graniec.coralreef.pulpcore.desktop;
 
 import java.awt.Component;
 import java.awt.Cursor;
