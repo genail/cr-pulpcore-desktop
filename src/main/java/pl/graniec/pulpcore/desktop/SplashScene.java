@@ -23,7 +23,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package pl.graniec.coralreef.pulpcore.desktop;
+package pl.graniec.pulpcore.desktop;
 
 import java.awt.Color;
 
