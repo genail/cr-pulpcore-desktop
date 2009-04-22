@@ -13,7 +13,7 @@
     <groupId>pl.graniec</groupId>
     <artifactId>cr-pulpcore-desktop</artifactId>
     <packaging>jar</packaging>
-    <version>0.3-SNAPSHOT</version>
+    <version>0.3</version>
     
     <name>Coral Reef PulpCore Desktop Implementation</name>
     <url>http://graniec.pl/</url>
