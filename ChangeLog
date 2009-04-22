@@ -1,2 +1,6 @@
+0.3:
+- Simpler window size setting
+- Moved packages/classes from pl.graniec.pulpcore.* to pl.graniec.coralreef.pulpcore.*
+
 0.2:
 - Now it's dependent of newer pulpcore version (0.11.5)
