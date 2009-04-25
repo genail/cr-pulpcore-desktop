@@ -47,10 +47,10 @@ public class DesktopPlatform implements Platform {
 	private String clipboardText = "";
 
 	
-	public DesktopPlatform( CoreWindow window ) {
+	public DesktopPlatform(final CoreDisplayPanel displayPanel) {
 		
 		// TODO: I'm not really sure if that should be done in this way
-		appContext = new DesktopAppContext( window );
+		appContext = new DesktopAppContext(displayPanel);
 	}
 	
 	@Override

@@ -72,15 +72,14 @@ public class DesktopAppContext extends AppContext {
 	/** Application properties */
 	private Map<String, String> propertiesMap = new HashMap<String, String>();
 
-	public DesktopAppContext( CoreWindow window ) {
+	public DesktopAppContext(final CoreDisplayPanel displayPanel) {
 
-		if ( window == null ) {
-			throw new IllegalArgumentException(
-					"window parameter cannot be null!" );
+		if (displayPanel == null) {
+			throw new IllegalArgumentException("window parameter cannot be null!");
 		}
 
-		this.surface = window.getSurface();
-		this.component = window.getComponent();
+		this.surface = displayPanel.getSurface();
+		this.component = displayPanel;
 
 		inputSystem = new DesktopInput( component );
 

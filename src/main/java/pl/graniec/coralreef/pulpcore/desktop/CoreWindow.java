@@ -26,14 +26,8 @@ package pl.graniec.coralreef.pulpcore.desktop;
 
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-import pulpcore.platform.Surface;
-import pulpcore.platform.applet.BufferedImageSurface;
 
 /**
  * @author Piotr Korzuszek <piotr.korzuszek@gmail.com>
@@ -41,69 +35,37 @@ import pulpcore.platform.applet.BufferedImageSurface;
  */
 public class CoreWindow extends JFrame {
 
-	class CorePanel extends JPanel {
-
-		private static final long serialVersionUID = -2625212614575475867L;
-		
-		BufferedImage buffer = new BufferedImage(1, 1, BufferedImage.TYPE_4BYTE_ABGR);
-		
-		@Override
-		public void paint(Graphics g) {
-			
-			surface.draw(buffer.getGraphics());
-			g.drawImage(buffer, 0, 0, null);
-		}
-		
-		@Override
-		public void update(Graphics g) {
-			paint(g);
-		}
-		
-	}
-	
 	/** Class serial number */
 	private static final long serialVersionUID = -8999835621498095740L;
-	/** PulpCore draw surface */
-	BufferedImageSurface surface;
 	/** Inside panel */
-	private final CorePanel panel = new CorePanel();
+	private final CoreDisplayPanel panel = new CoreDisplayPanel();
 	
 	/** Window frame */
 
 	public CoreWindow() {
 		
 		add(panel);
-		surface = new BufferedImageSurface(panel);
 		
 		setResizable(false);
 	}
 
+	
 	/**
-	 * Provides a PulpCore draw surface, which on engine can freely draw on.
-	 * 
-	 * @return Drawing surface.
+	 * @return
 	 */
-	public Surface getSurface() {
-		return surface;
+	CoreDisplayPanel getDisplayPanel() {
+		return panel;
 	}
 	
 	@Override
 	public void setSize(Dimension d) {
 		panel.setPreferredSize(d);
-		panel.buffer = new BufferedImage(d.width, d.height, BufferedImage.TYPE_4BYTE_ABGR);
 		pack();
 	}
-	
+
 	@Override
 	public void setSize(int width, int height) {
 		setSize(new Dimension(width, height));
-	}
-
-	/**
-	 * @return
-	 */
-	Component getComponent() {
-		return panel;
 	}
 
 }

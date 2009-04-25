@@ -35,10 +35,9 @@ import java.util.logging.Logger;
 
 import pulpcore.CoreSystem;
 import pulpcore.platform.Platform;
+import pulpcore.scene.Scene;
 
 public class CoreApplication implements Runnable {
-
-	private static Logger logger = Logger.getLogger( CoreApplication.class.getName() );
 
 	/** Properties that can be given thru arguments */
 	public static final String FIRST_SCENE_CLASS_PROPERTY = "firstscene";
@@ -48,18 +47,6 @@ public class CoreApplication implements Runnable {
 	/** Default window dimensions */
 	private static final int DEFAULT_WINDOW_WIDTH = 640;
 	private static final int DEFAULT_WINDOW_HEIGHT = 480;
-
-	/** Application run properties */
-	private Map<String, String> properties;
-
-	public CoreApplication( Map<String, String> properites ) {
-		
-//		if (properties == null) {
-//			throw new IllegalArgumentException("Cannot take null values");
-//		}
-		
-		this.properties = properites;
-	}
 
 	/**
 	 * @param args
@@ -87,55 +74,135 @@ public class CoreApplication implements Runnable {
 		new CoreApplication( properties ).run();
 
 	}
+	
+	
+	/** Application run properties */
+	private Map<String, String> properties = new HashMap<String, String>();
+	/** If window is created then this will be window default width and height */
+	private int windowWidth, windowHeight;
+
+	/** First scene that will be run */
+	private Class<Scene> sceneClass;
+	/** Panel on which the scenes will be displayed */
+	private CoreDisplayPanel displayPanel;
+	
+	/**
+	 * Creates a new CoreApplication that will display
+	 * <code>firstSceneClass</code> and other scenes
+	 * in selected <code>displayPanel</code>.
+	 */
+	public CoreApplication(final Class<Scene> firstSceneClass, final CoreDisplayPanel displayPanel) {
+		
+		if (firstSceneClass == null || displayPanel == null) {
+			throw new IllegalArgumentException("parameters cannot be null");
+		}	
+		
+		this.sceneClass = firstSceneClass;
+		this.displayPanel = displayPanel;
+	}
+	
+	/**
+	 * Creates a new CoreApplication that will display a
+	 * window with default dimensions. When run, the
+	 * <code>firstSceneClass</code> will be launched.
+	 * 
+	 * @param firstSceneClass Scene to launch first.
+	 */
+	public CoreApplication(final Class<Scene> firstSceneClass) {
+		this(firstSceneClass, DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT);
+	}
+	
+	/**
+	 * Creates a new CoreApplication that will display
+	 * a window with dimensions of <code>width</code> and
+	 * <code>height</code>. When run, the <code>firstSceneClass</code>
+	 * will be launched.
+	 * 
+	 * @param firstSceneClass Scene to launch first.
+	 * @param width Width of window to create.
+	 * @param height Height of window to create.
+	 */
+	public CoreApplication(final Class<Scene> firstSceneClass, final int width, final int height) {
+		if (firstSceneClass == null) {
+			throw new IllegalArgumentException("parameters cannot be null");
+		}
+		
+		if (width < 1 || height < 1) {
+			throw new IllegalArgumentException("Bad window dimensions");
+		}
+		
+		this.sceneClass = firstSceneClass;
+		this.windowWidth = width;
+		this.windowHeight = height;
+	}
+	
+	/**
+	 * @deprecated use other constructors instead
+	 */
+	public CoreApplication(Map<String, String> properites) {
+		
+		try {
+			if (properties.containsKey(WINDOW_WIDTH)) {
+				windowWidth = Integer.parseInt(properties.get(WINDOW_WIDTH));
+			}
+		} catch ( NumberFormatException e ) {
+			CoreSystem.print( "Window width is not a integer" );
+		} finally {
+			if (windowWidth <= 0) {
+				windowWidth = DEFAULT_WINDOW_WIDTH;
+			}
+		}
+		
+		try {
+			if (properties.containsKey(WINDOW_HEIGHT)) {
+				windowHeight = Integer.parseInt(properties.get(WINDOW_HEIGHT));
+			}
+		} catch ( NumberFormatException e ) {
+			CoreSystem.print( "Window height is not a integer" );
+		} finally {
+			if (windowHeight <= 0) {
+				windowHeight = DEFAULT_WINDOW_HEIGHT;
+			}
+		}
+		
+		try {
+			if (properties.containsKey(FIRST_SCENE_CLASS_PROPERTY)) {
+				sceneClass = (Class<Scene>) Class.forName(properties.get(FIRST_SCENE_CLASS_PROPERTY));
+			}
+		} catch (ClassNotFoundException e) {
+			CoreSystem.print("Class not found: " + properties.get(FIRST_SCENE_CLASS_PROPERTY));
+		}
+		
+		
+		this.properties = properites;
+	}
 
 	@Override
 	public void run() {
-		// creating a window
-		CoreWindow window = new CoreWindow();
-
-		// getting window dimensions
-		int width = DEFAULT_WINDOW_WIDTH;
-		int height = DEFAULT_WINDOW_HEIGHT;
-
-		if (properties.containsKey(WINDOW_WIDTH)) {
-			try {
-				width = Integer.parseInt(properties.get(WINDOW_WIDTH));
-			} catch ( NumberFormatException e ) {
-				logger.severe( "Window width is not a integer" );
-			} finally {
-				if (width <= 0) {
-					width = DEFAULT_WINDOW_WIDTH;
-				}
-			}
-		}
 		
-		if (properties.containsKey(WINDOW_HEIGHT)) {
-			try {
-				height = Integer.parseInt(properties.get(WINDOW_HEIGHT));
-			} catch ( NumberFormatException e ) {
-				logger.severe( "Window height is not a integer" );
-			} finally {
-				if (height <= 0) {
-					height = DEFAULT_WINDOW_HEIGHT;
+		// if displayPanel is null then I should create
+		// a new CoreWindow
+		if (displayPanel == null) {
+			final CoreWindow window = new CoreWindow();
+			
+			window.setSize(new Dimension(windowWidth, windowHeight));
+			window.setBackground(Color.black);
+			window.setVisible(true);
+			
+			// closing window action
+			window.addWindowListener(new WindowAdapter() {
+				@Override
+				public void windowClosing(WindowEvent e) {
+					System.exit(0);
 				}
-			}
+
+			});
+			
+			displayPanel = window.getDisplayPanel();
 		}
-		
-		window.setSize(new Dimension(width, height));
-		window.setBackground(Color.black);
-		window.setVisible(true);
-
-		// closing window action
-		window.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				System.exit(0);
-			}
-
-		} );
 
 		// creating desktop platform
-		Platform platform = new DesktopPlatform(window);
+		Platform platform = new DesktopPlatform(displayPanel);
 		CoreSystem.init(platform);
 
 		// setting properties
@@ -147,6 +214,10 @@ public class CoreApplication implements Runnable {
 
 		// start running
 		platform.getThisAppContext().start();
+	}
+
+	public void setAppProperty(final String name, final String value) {
+		properties.put(name, value);
 	}
 
 }
