@@ -94,7 +94,7 @@ public class DesktopAppContext extends AppContext {
 			String sceneName = getAppProperty( CoreApplication.FIRST_SCENE_CLASS_PROPERTY );
 			if ( sceneName == null || sceneName.length() == 0 ) {
 				if ( Build.DEBUG )
-					CoreSystem.print( "No defined scene." );
+					CoreSystem.print( "No scene defined" );
 				return null;
 			}
 

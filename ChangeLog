@@ -1,6 +1,7 @@
 0.4:
 - Major changes in method of initializing desktop PulpCore instance
 - PulpCore can be display in freely JPanel (CoreDisplayPanel)
+- Default display window can be set as resizable
 
 0.3:
 - Simpler window size setting

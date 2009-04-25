@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import pulpcore.Build;
 import pulpcore.CoreSystem;
 import pulpcore.platform.Platform;
 import pulpcore.scene.Scene;
@@ -85,6 +86,19 @@ public class CoreApplication implements Runnable {
 	private Class<Scene> sceneClass;
 	/** Panel on which the scenes will be displayed */
 	private CoreDisplayPanel displayPanel;
+	/** Tells if window should be resizable */
+	private boolean windowResizable;
+	
+	/**
+	 * Creates a new CoreApplication that will display a
+	 * window with default dimensions. When run, the
+	 * <code>firstSceneClass</code> will be launched.
+	 * 
+	 * @param firstSceneClass Scene to launch first.
+	 */
+	public CoreApplication(final Class<Scene> firstSceneClass) {
+		this(firstSceneClass, DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT);
+	}
 	
 	/**
 	 * Creates a new CoreApplication that will display
@@ -99,17 +113,6 @@ public class CoreApplication implements Runnable {
 		
 		this.sceneClass = firstSceneClass;
 		this.displayPanel = displayPanel;
-	}
-	
-	/**
-	 * Creates a new CoreApplication that will display a
-	 * window with default dimensions. When run, the
-	 * <code>firstSceneClass</code> will be launched.
-	 * 
-	 * @param firstSceneClass Scene to launch first.
-	 */
-	public CoreApplication(final Class<Scene> firstSceneClass) {
-		this(firstSceneClass, DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT);
 	}
 	
 	/**
@@ -146,7 +149,9 @@ public class CoreApplication implements Runnable {
 				windowWidth = Integer.parseInt(properties.get(WINDOW_WIDTH));
 			}
 		} catch ( NumberFormatException e ) {
-			CoreSystem.print( "Window width is not a integer" );
+			if ( Build.DEBUG ) {
+				CoreSystem.print( "Window width is not a integer" );
+			}
 		} finally {
 			if (windowWidth <= 0) {
 				windowWidth = DEFAULT_WINDOW_WIDTH;
@@ -158,7 +163,9 @@ public class CoreApplication implements Runnable {
 				windowHeight = Integer.parseInt(properties.get(WINDOW_HEIGHT));
 			}
 		} catch ( NumberFormatException e ) {
-			CoreSystem.print( "Window height is not a integer" );
+			if ( Build.DEBUG ) {
+				CoreSystem.print( "Window height is not a integer" );
+			}
 		} finally {
 			if (windowHeight <= 0) {
 				windowHeight = DEFAULT_WINDOW_HEIGHT;
@@ -170,13 +177,19 @@ public class CoreApplication implements Runnable {
 				sceneClass = (Class<Scene>) Class.forName(properties.get(FIRST_SCENE_CLASS_PROPERTY));
 			}
 		} catch (ClassNotFoundException e) {
-			CoreSystem.print("Class not found: " + properties.get(FIRST_SCENE_CLASS_PROPERTY));
+			if ( Build.DEBUG ) {
+				CoreSystem.print("Class not found: " + properties.get(FIRST_SCENE_CLASS_PROPERTY));
+			}
 		}
 		
 		
 		this.properties = properites;
 	}
 
+	/**
+	 * Runs the application. All configuration should be done before
+	 * this step!
+	 */
 	@Override
 	public void run() {
 		
@@ -188,6 +201,8 @@ public class CoreApplication implements Runnable {
 			window.setSize(new Dimension(windowWidth, windowHeight));
 			window.setBackground(Color.black);
 			window.setVisible(true);
+			
+			window.setResizable(windowResizable);
 			
 			// closing window action
 			window.addWindowListener(new WindowAdapter() {
@@ -215,9 +230,19 @@ public class CoreApplication implements Runnable {
 		// start running
 		platform.getThisAppContext().start();
 	}
-
+	
 	public void setAppProperty(final String name, final String value) {
 		properties.put(name, value);
+	}
+
+	/**
+	 * Sets if created window can be resized. By default
+	 * window cannot resize.
+	 * 
+	 * @param windowResizable Window resizable state.
+	 */
+	public void setWindowResizable(boolean windowResizable) {
+		this.windowResizable = windowResizable;
 	}
 
 }
