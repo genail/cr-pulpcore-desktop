@@ -57,7 +57,10 @@ public class CoreDisplayPanel extends JPanel {
 		addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {
-				buffer = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
+				BufferedImage newBuffer = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
+				newBuffer.getGraphics().drawImage(buffer, 0, 0, null);
+				buffer = newBuffer;
+				
 			}
 		});
 	}
@@ -76,5 +79,13 @@ public class CoreDisplayPanel extends JPanel {
 	public void update(Graphics g) {
 		paint(g);
 	}
-
+	
+	/*
+	 * @see java.awt.Component#paintAll(java.awt.Graphics)
+	 */
+	@Override
+	public void paintAll(Graphics g) {
+		paint(g);
+	}
+	
 }

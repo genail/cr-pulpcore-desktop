@@ -30,6 +30,7 @@ import pulpcore.platform.AppContext;
 import pulpcore.platform.Platform;
 import pulpcore.platform.SoundEngine;
 import pulpcore.platform.applet.JavaSound;
+import pulpcore.scene.Scene;
 
 
 /**
@@ -47,10 +48,10 @@ public class DesktopPlatform implements Platform {
 	private String clipboardText = "";
 
 	
-	public DesktopPlatform(final CoreDisplayPanel displayPanel) {
+	public DesktopPlatform(final CoreDisplayPanel displayPanel, final Class<? extends Scene> firstSceneClass) {
 		
 		// TODO: I'm not really sure if that should be done in this way
-		appContext = new DesktopAppContext(displayPanel);
+		appContext = new DesktopAppContext(displayPanel, firstSceneClass);
 	}
 	
 	@Override

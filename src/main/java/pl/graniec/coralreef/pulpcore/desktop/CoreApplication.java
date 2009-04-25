@@ -83,7 +83,7 @@ public class CoreApplication implements Runnable {
 	private int windowWidth, windowHeight;
 
 	/** First scene that will be run */
-	private Class<Scene> sceneClass;
+	private Class<? extends Scene> sceneClass;
 	/** Panel on which the scenes will be displayed */
 	private CoreDisplayPanel displayPanel;
 	/** Tells if window should be resizable */
@@ -96,7 +96,7 @@ public class CoreApplication implements Runnable {
 	 * 
 	 * @param firstSceneClass Scene to launch first.
 	 */
-	public CoreApplication(final Class<Scene> firstSceneClass) {
+	public CoreApplication(final Class<? extends Scene> firstSceneClass) {
 		this(firstSceneClass, DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT);
 	}
 	
@@ -105,7 +105,7 @@ public class CoreApplication implements Runnable {
 	 * <code>firstSceneClass</code> and other scenes
 	 * in selected <code>displayPanel</code>.
 	 */
-	public CoreApplication(final Class<Scene> firstSceneClass, final CoreDisplayPanel displayPanel) {
+	public CoreApplication(final Class<? extends Scene> firstSceneClass, final CoreDisplayPanel displayPanel) {
 		
 		if (firstSceneClass == null || displayPanel == null) {
 			throw new IllegalArgumentException("parameters cannot be null");
@@ -125,7 +125,7 @@ public class CoreApplication implements Runnable {
 	 * @param width Width of window to create.
 	 * @param height Height of window to create.
 	 */
-	public CoreApplication(final Class<Scene> firstSceneClass, final int width, final int height) {
+	public CoreApplication(final Class<? extends Scene> firstSceneClass, final int width, final int height) {
 		if (firstSceneClass == null) {
 			throw new IllegalArgumentException("parameters cannot be null");
 		}
@@ -217,7 +217,7 @@ public class CoreApplication implements Runnable {
 		}
 
 		// creating desktop platform
-		Platform platform = new DesktopPlatform(displayPanel);
+		Platform platform = new DesktopPlatform(displayPanel, sceneClass);
 		CoreSystem.init(platform);
 
 		// setting properties

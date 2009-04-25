@@ -68,48 +68,40 @@ public class DesktopAppContext extends AppContext {
 	private Stage stage;
 	/** First scene */
 	private Scene firstScene;
+	/** First scene class */
+	private final Class<? extends Scene> firstSceneClass;
 
 	/** Application properties */
 	private Map<String, String> propertiesMap = new HashMap<String, String>();
 
-	public DesktopAppContext(final CoreDisplayPanel displayPanel) {
+	public DesktopAppContext(final CoreDisplayPanel displayPanel, final Class<? extends Scene> firstSceneClass) {
 
 		if (displayPanel == null) {
 			throw new IllegalArgumentException("window parameter cannot be null!");
 		}
 
+		this.firstSceneClass = firstSceneClass;
 		this.surface = displayPanel.getSurface();
 		this.component = displayPanel;
 
 		inputSystem = new DesktopInput( component );
 
 	}
-
+	
 	@Override
 	public Scene createFirstScene() {
 
-		if ( firstScene == null ) {
-
-			// Create the first scene
-			String sceneName = getAppProperty( CoreApplication.FIRST_SCENE_CLASS_PROPERTY );
-			if ( sceneName == null || sceneName.length() == 0 ) {
-				if ( Build.DEBUG )
-					CoreSystem.print( "No scene defined" );
-				return null;
-			}
+		if (firstScene == null) {
 
 			try {
-				Class<?> c = Class.forName( sceneName );
-				firstScene = (Scene) c.newInstance();
+				firstScene = (Scene) firstSceneClass.newInstance();
 			}
-
-			catch ( Throwable t ) {
-				if ( Build.DEBUG )
-					CoreSystem.print( "Could not create Scene: " + sceneName, t );
+			catch (Throwable t) {
+				if (Build.DEBUG)
+					CoreSystem.print( "Could not create Scene: " + firstSceneClass, t );
 				return null;
 			}
 
-//			firstScene = new SplashScene( firstScene );
 		}
 
 		return firstScene;
