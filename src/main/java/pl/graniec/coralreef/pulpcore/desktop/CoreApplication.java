@@ -27,11 +27,13 @@ package pl.graniec.coralreef.pulpcore.desktop;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.DisplayMode;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import pulpcore.Build;
 import pulpcore.CoreSystem;
@@ -88,6 +90,10 @@ public class CoreApplication implements Runnable {
 	private CoreDisplayPanel displayPanel;
 	/** Tells if window should be resizable */
 	private boolean windowResizable;
+	/** Is display mode is fullscreen? */
+	private boolean fullScreen;
+	/** Device on which window will be created */
+	private GraphicsDevice defaultScreenDevice;
 	
 	/**
 	 * Creates a new CoreApplication that will display a
@@ -113,6 +119,8 @@ public class CoreApplication implements Runnable {
 		
 		this.sceneClass = firstSceneClass;
 		this.displayPanel = displayPanel;
+		
+		initialize();
 	}
 	
 	/**
@@ -137,12 +145,14 @@ public class CoreApplication implements Runnable {
 		this.sceneClass = firstSceneClass;
 		this.windowWidth = width;
 		this.windowHeight = height;
+		
+		initialize();
 	}
 	
 	/**
 	 * @deprecated use other constructors instead
 	 */
-	public CoreApplication(Map<String, String> properites) {
+	public CoreApplication(Map<String, String> properties) {
 		
 		try {
 			if (properties.containsKey(WINDOW_WIDTH)) {
@@ -150,7 +160,7 @@ public class CoreApplication implements Runnable {
 			}
 		} catch ( NumberFormatException e ) {
 			if ( Build.DEBUG ) {
-				CoreSystem.print( "Window width is not a integer" );
+				System.err.println( "Window width is not a integer" );
 			}
 		} finally {
 			if (windowWidth <= 0) {
@@ -164,7 +174,7 @@ public class CoreApplication implements Runnable {
 			}
 		} catch ( NumberFormatException e ) {
 			if ( Build.DEBUG ) {
-				CoreSystem.print( "Window height is not a integer" );
+				System.err.println( "Window height is not a integer" );
 			}
 		} finally {
 			if (windowHeight <= 0) {
@@ -178,12 +188,19 @@ public class CoreApplication implements Runnable {
 			}
 		} catch (ClassNotFoundException e) {
 			if ( Build.DEBUG ) {
-				CoreSystem.print("Class not found: " + properties.get(FIRST_SCENE_CLASS_PROPERTY));
+				System.err.println("Class not found: " + properties.get(FIRST_SCENE_CLASS_PROPERTY));
 			}
 		}
 		
 		
-		this.properties = properites;
+		this.properties = properties;
+		
+		initialize();
+	}
+	
+	private void initialize() {
+		final GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		defaultScreenDevice = env.getDefaultScreenDevice();
 	}
 
 	/**
@@ -196,7 +213,24 @@ public class CoreApplication implements Runnable {
 		// if displayPanel is null then I should create
 		// a new CoreWindow
 		if (displayPanel == null) {
-			final CoreWindow window = new CoreWindow();
+			
+			// if fullscreen then check the display modes
+			DisplayMode displayMode = null;
+			
+			if (fullScreen) {
+				for (final DisplayMode mode : defaultScreenDevice.getDisplayModes()) {
+					if (mode.getWidth() == windowWidth && mode.getHeight() == windowHeight) {
+						displayMode = mode;
+						break;
+					}
+				}
+				
+				if (Build.DEBUG && displayMode == null) {
+					System.err.println("Error: Cannot switch to display mode " + windowWidth + " x " + windowHeight + ": not available");
+				}
+			}
+			
+			final CoreWindow window = new CoreWindow(defaultScreenDevice, (displayMode != null), displayMode);
 			
 			window.setSize(new Dimension(windowWidth, windowHeight));
 			window.setBackground(Color.black);
@@ -217,6 +251,7 @@ public class CoreApplication implements Runnable {
 		}
 
 		// creating desktop platform
+		
 		Platform platform = new DesktopPlatform(displayPanel, sceneClass);
 		CoreSystem.init(platform);
 
@@ -234,6 +269,25 @@ public class CoreApplication implements Runnable {
 	public void setAppProperty(final String name, final String value) {
 		properties.put(name, value);
 	}
+	
+	/**
+	 * Sets the display mode to <i>fullscreen</i> or <i>windowed</i>.
+	 * The default is <i>windowed</i>.
+	 * <p>
+	 * Switched to fullscreen can be only these resolutions that matches
+	 * avaiable display modes. To check what display modes are available
+	 * on the machine that the application is running, do the following:
+	 * <p>
+	 * <code>
+	 * final GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();<br>
+	 * final DisplayMode[] displayModes = env.getDefaultScreenDevice().getDisplayModes();
+	 * </code>
+	 * 
+	 * @param fullScreen the fullScreen to set
+	 */
+	public void setFullScreen(boolean fullScreen) {
+		this.fullScreen = fullScreen;
+	}
 
 	/**
 	 * Sets if created window can be resized. By default
@@ -243,6 +297,11 @@ public class CoreApplication implements Runnable {
 	 */
 	public void setWindowResizable(boolean windowResizable) {
 		this.windowResizable = windowResizable;
+	}
+	
+	public void setWindowSize(final int width, final int height) {
+		windowWidth = width;
+		windowHeight = height;
 	}
 
 }

@@ -24,8 +24,9 @@
  */
 package pl.graniec.coralreef.pulpcore.desktop;
 
-import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.DisplayMode;
+import java.awt.GraphicsDevice;
 
 import javax.swing.JFrame;
 
@@ -39,17 +40,65 @@ public class CoreWindow extends JFrame {
 	private static final long serialVersionUID = -8999835621498095740L;
 	/** Inside panel */
 	private final CoreDisplayPanel panel = new CoreDisplayPanel();
+//	/** System display device */
+//	private final GraphicsDevice device;
+//	/** Is this window fullscreen? */
+//	private final boolean fullScreen;
 	
 	/** Window frame */
 
-	public CoreWindow() {
+	public CoreWindow(final GraphicsDevice device, final boolean fullScreen, final DisplayMode displayMode) {
+		
+//		this.device = device;
+//		this.fullScreen = fullScreen;
 		
 		add(panel);
 		
 		setResizable(false);
+		
+		// switch to fullscreen if this mode is on
+		if (fullScreen && displayMode != null) {
+			setUndecorated(true);
+			
+			device.setFullScreenWindow(this);
+			device.setDisplayMode(displayMode);
+		}
 	}
-
 	
+//	protected void toogleFullScreen() {
+//		
+//		if (!fullScreen) {
+//		
+//			final int width = panel.getWidth();
+//			final int height = panel.getHeight();
+//			
+//			boolean found = false;
+//			
+//			for (final DisplayMode mode : device.getDisplayModes()) {
+//				if (mode.getWidth() == width && mode.getHeight() == height) {
+//					
+//					device.setFullScreenWindow(this);
+//					device.setDisplayMode(mode);
+//					
+//					
+//					fullScreen = true;
+//					found = true;
+//					
+//					break;
+//				}
+//			}
+//			
+//			if (!found && Build.DEBUG) {
+//				CoreSystem.print("Warning: cannot switch to fullscreen using resolution " + width + " x " + height);
+//			}
+//		} else {
+//			device.setFullScreenWindow(this);
+//			device.setDisplayMode(defaultDisplayMode);
+//			
+//			fullScreen = false;
+//		}
+//	}
+
 	/**
 	 * @return
 	 */

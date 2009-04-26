@@ -1,3 +1,8 @@
+0.5:
+- Added fullscreen support
+- Fixed bug with HelloWorld demo and black screen
+- Many other bug fixes and enhancements
+
 0.4:
 - Major changes in method of initializing desktop PulpCore instance
 - PulpCore can be display in freely JPanel (CoreDisplayPanel)
