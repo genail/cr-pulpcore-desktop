@@ -28,6 +28,8 @@
  */
 package pl.graniec.coralreef.pulpcore.desktop;
 
+import pulpcore.animation.Easing;
+import pulpcore.animation.Int;
 import pulpcore.scene.Scene2D;
 import pulpcore.sprite.FilledSprite;
 import pulpcore.sprite.Group;
@@ -38,6 +40,10 @@ import pulpcore.sprite.Group;
  */
 public class ScrollingTestMain extends Scene2D {
 
+	final Int x = new Int();
+	final Int y = new Int();
+	private Group group;
+	
 	/* (non-Javadoc)
 	 * @see pulpcore.scene.Scene#load()
 	 */
@@ -52,7 +58,7 @@ public class ScrollingTestMain extends Scene2D {
 		final int w = 10;
 		final int h = 7;
 		
-		Group group = new Group();
+		group = new Group();
 		
 		for (int x = 0; x < w; ++x) {
 			for (int y = 0; y < h; ++y) {
@@ -62,7 +68,8 @@ public class ScrollingTestMain extends Scene2D {
 		
 		add(group);
 		
-		group.moveTo(100, 100, 20000);
+		x.animateTo(400, 10000, Easing.NONE);
+		y.animateTo(400, 10000, Easing.NONE);
 	}
 	
 	/**
@@ -71,6 +78,19 @@ public class ScrollingTestMain extends Scene2D {
 	public static void main(String[] args) {
 		CoreApplication app = new CoreApplication(ScrollingTestMain.class);
 		app.run();
+	}
+	
+	/* (non-Javadoc)
+	 * @see pulpcore.scene.Scene2D#update(int)
+	 */
+	@Override
+	public void update(int elapsedTime) {
+		super.update(elapsedTime);
+		x.update(elapsedTime);
+		y.update(elapsedTime);
+		
+		group.x.set(x.get());
+		group.y.set(y.get());
 	}
 
 }
