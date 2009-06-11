@@ -1,6 +1,6 @@
 <!-- Coral Reef PulpCore Desktop Implementation library -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xsi:schemaLocation='http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns='http://maven.apache.org/POM/4.0.0'>
     
     <parent>
         <groupId>pl.graniec</groupId>
@@ -13,7 +13,7 @@
     <groupId>pl.graniec</groupId>
     <artifactId>cr-pulpcore-desktop</artifactId>
     <packaging>jar</packaging>
-    <version>0.6-SNAPSHOT</version>
+    <version>0.6</version>
     
     <name>Coral Reef PulpCore Desktop Implementation</name>
     <url>http://graniec.pl/</url>
