@@ -1,3 +1,7 @@
+0.6:
+- Removed overhead with second drawing buffer
+- Removed all deprecated classes
+
 0.5:
 - Added fullscreen support
 - Fixed bug with HelloWorld demo and black screen
