@@ -29,9 +29,6 @@
 package pl.graniec.coralreef.pulpcore.desktop;
 
 import java.awt.Graphics;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
@@ -45,24 +42,11 @@ public class CoreDisplayPanel extends JPanel {
 
 	private static final long serialVersionUID = -1623045476967544733L;
 	
-	/** The second buffer */
-	private BufferedImage buffer = new BufferedImage(1, 1, BufferedImage.TYPE_4BYTE_ABGR);
 	/** PulpCore draw surface */
 	private final BufferedImageSurface surface;
 	
 	public CoreDisplayPanel() {
-		
 		surface = new BufferedImageSurface(this);
-		
-		addComponentListener(new ComponentAdapter() {
-			@Override
-			public void componentResized(ComponentEvent e) {
-				BufferedImage newBuffer = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
-				newBuffer.getGraphics().drawImage(buffer, 0, 0, null);
-				buffer = newBuffer;
-				
-			}
-		});
 	}
 	
 	public  BufferedImageSurface getSurface() {
@@ -71,8 +55,7 @@ public class CoreDisplayPanel extends JPanel {
 	
 	@Override
 	public void paint(Graphics g) {
-		surface.draw(buffer.getGraphics());
-		g.drawImage(buffer, 0, 0, null);
+		surface.draw(g);
 	}
 	
 	@Override

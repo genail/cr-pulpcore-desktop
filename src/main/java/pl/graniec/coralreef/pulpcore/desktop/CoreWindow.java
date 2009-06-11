@@ -40,17 +40,10 @@ public class CoreWindow extends JFrame {
 	private static final long serialVersionUID = -8999835621498095740L;
 	/** Inside panel */
 	private final CoreDisplayPanel panel = new CoreDisplayPanel();
-//	/** System display device */
-//	private final GraphicsDevice device;
-//	/** Is this window fullscreen? */
-//	private final boolean fullScreen;
 	
 	/** Window frame */
 
 	public CoreWindow(final GraphicsDevice device, final boolean fullScreen, final DisplayMode displayMode) {
-		
-//		this.device = device;
-//		this.fullScreen = fullScreen;
 		
 		add(panel);
 		
@@ -65,40 +58,6 @@ public class CoreWindow extends JFrame {
 		}
 	}
 	
-//	protected void toogleFullScreen() {
-//		
-//		if (!fullScreen) {
-//		
-//			final int width = panel.getWidth();
-//			final int height = panel.getHeight();
-//			
-//			boolean found = false;
-//			
-//			for (final DisplayMode mode : device.getDisplayModes()) {
-//				if (mode.getWidth() == width && mode.getHeight() == height) {
-//					
-//					device.setFullScreenWindow(this);
-//					device.setDisplayMode(mode);
-//					
-//					
-//					fullScreen = true;
-//					found = true;
-//					
-//					break;
-//				}
-//			}
-//			
-//			if (!found && Build.DEBUG) {
-//				CoreSystem.print("Warning: cannot switch to fullscreen using resolution " + width + " x " + height);
-//			}
-//		} else {
-//			device.setFullScreenWindow(this);
-//			device.setDisplayMode(defaultDisplayMode);
-//			
-//			fullScreen = false;
-//		}
-//	}
-
 	/**
 	 * @return
 	 */
